@@ -37,6 +37,7 @@ jobs:
         datasette publish vercel sfms-pages.db \
           --token $VERCEL_TOKEN \
           --install datasette-auth-passwords \
+          --install datasette-redirect-forbidden \
           --project sfms-history \
           --scope datasette \
           --plugins-dir plugins \

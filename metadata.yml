@@ -5,3 +5,6 @@ plugins:
   datasette-auth-passwords:
     sfms_password_hash:
       $env: SFMS_PASSWORD_HASH
+  datasette-redirect-forbidden:
+    redirect_to: /-/login
+

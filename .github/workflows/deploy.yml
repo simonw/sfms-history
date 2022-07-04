@@ -35,6 +35,7 @@ jobs:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       run: |-
         datasette publish vercel sfms-pages.db \
+          --token $VERCEL_TOKEN \
           --install datasette-auth-passwords \
           --project sfms-history \
           --scope datasette \

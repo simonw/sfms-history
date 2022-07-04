@@ -1,0 +1,24 @@
+{% extends "site_base.html" %}
+{% block content %}
+<h2>Search the archive</h2>
+<form>
+  <p>
+    <input type="search" name="q" value="{{ q }}" style="font-size: 1.2em; width: 60%">
+    <input type="submit" value="Search" style="font-size: 1.2em; font-weight: bold; padding: 0.05em 1em;">
+  </p>
+</form>
+
+{% if results %}
+  <p>{{ count }} results</p>
+
+  {% for row in results %}
+    <div style="clear: both">
+      <h2><a href="/page/{{ row.rowid }}/">{{ row.path }} page {{ row.page }}</a></h2>
+      <a href="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=1024&auto=format"><img class="result-thumb" src="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=200&auto=format"></a>
+      {{ row.highlighted|safe }}
+      <p>{{ row.rank }} - {{ row.rowid }}</p>
+    </div>
+  {% endfor %}
+{% endif %}
+
+{% endblock %}

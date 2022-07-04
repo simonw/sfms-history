@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}San Francisco Microscopical Society Archive{% endblock %}</title>
+<style>
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+section {
+  max-width: 800px;
+  overflow-wrap: break-word;
+  margin-left: 70px;
+}
+.sfms-logo {
+  width: 140px;
+  float: left;
+  margin-right: 25px;
+}
+.result-thumb {
+  float: right;
+  margin: 0.5em;
+}
+header {
+  height: 150px;
+  display: flex;
+  align-items: center;
+}
+header h1 em {
+  font-weight: normal;
+}
+</style>
+</head>
+<body>
+<header>
+  <a href="/"><img class="sfms-logo" src="/static/sfms-logo.png" alt="San Francisco Microscopical Society - 1870"></a>
+  <h1>San Francisco Microscopical Society<br><em>Archive</em></h1>
+</header>
+
+<section>
+{% block content %}{% endblock %}
+</section>
+
+</body>
+</html>

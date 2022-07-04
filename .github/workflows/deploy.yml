@@ -39,4 +39,7 @@ jobs:
           --install datasette-auth-passwords \
           --project sfms-history \
           --scope datasette \
+          --plugins-dir plugins \
+          --template-dir templates \
+          --static static:static \
           -m metadata.yml

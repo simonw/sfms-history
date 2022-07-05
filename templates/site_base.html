@@ -63,6 +63,12 @@ a:visited {
     margin-left: 10px;
   }
 }
+.page img {
+  max-width: 100%;
+}
+.page pre {
+  overflow: auto;
+}
 </style>
 </head>
 <body>
@@ -71,7 +77,7 @@ a:visited {
   <h1>San Francisco Microscopical Society<br><em>Archive</em></h1>
 </header>
 
-<section>
+<section class="{% block section_class %}{% endblock %}">
 {% block content %}{% endblock %}
 </section>
 

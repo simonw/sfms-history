@@ -9,16 +9,22 @@
 </form>
 
 {% if results %}
-  <p>{{ count }} results</p>
+  <p>{{ count }} results <small>(showing {{ results|length }}){% if not_first_page %} <a href="/?q={{ q|urlencode }}">First page</a>{% endif %}</small></p>
 
   {% for row in results %}
     <div style="clear: both">
-      <h2><a href="/page/{{ row.rowid }}/">{{ row.path }} page {{ row.page }}</a></h2>
+      <h2><a href="/page/{{ row.rowid }}/">{{ row.filename }} page {{ row.page }}</a></h2>
+      <p>{{ row.folder }}</p>
       <a href="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=1024&auto=format"><img class="result-thumb" src="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=200&auto=format"></a>
       {{ row.highlighted|safe }}
-      <p>{{ row.rank }} - {{ row.rowid }}</p>
     </div>
   {% endfor %}
+
+  {% if next_token %}
+    <p class="next-page"><a href="/?q={{ q|urlencode }}&next={{ next_token|urlencode }}">Next page</a></p>
+  {% endif %}
+
 {% endif %}
+
 
 {% endblock %}

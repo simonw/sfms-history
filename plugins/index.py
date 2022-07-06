@@ -26,7 +26,7 @@ def extra_template_vars(request, template, datasette):
                 await db.execute("select * from pages where rowid = ?", (rowid,))
             ).first()
             return {
-                "page": page,
+                "page": dict(page, filename=page["path"].split("/")[-1])
             }
         if template == "index.html":
             q = request.args.get("q", "").strip()

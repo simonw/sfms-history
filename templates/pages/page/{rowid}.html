@@ -5,8 +5,9 @@
 {% block section_class %}page{% endblock %}
 
 {% block content %}
-
-<h2>{{ page.path }}</h2>
+<div class="result">
+<h2>{{ page.filename }}</h2>
+<p class="folder">{{ page.folder }}/</p>
 <h3>Page {{ page.page }}</h3>
 
 <pre>
@@ -14,5 +15,5 @@
 </pre>
 
 <img src="https://sfms-history.imgix.net/{{ page.path }}?page={{ page.page }}&w=1024&auto=format">
-
+</div>
 {% endblock %}

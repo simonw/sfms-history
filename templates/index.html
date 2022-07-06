@@ -24,6 +24,11 @@
     <p class="next-page"><a href="/?q={{ q|urlencode }}&next={{ next_token|urlencode }}">Next page</a></p>
   {% endif %}
 
+{% else %}
+  <h3>Six random pages</h3>
+  {% for row in random_pages %}
+    <a href="/page/{{ row.rowid }}/" title="{{ row.path }}"><img class="random-page" src="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=200&auto=format" alt="{{ row.text }}"></a>
+  {% endfor %}
 {% endif %}
 
 

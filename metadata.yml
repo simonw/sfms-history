@@ -1,6 +1,6 @@
 title: San Francisco Microscopical Society Archive
-allow:
-  id: sfms
+#allow:
+#  id: sfms
 plugins:
   datasette-auth-passwords:
     sfms_password_hash:

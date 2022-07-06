@@ -25,9 +25,7 @@ def extra_template_vars(request, template, datasette):
             page = (
                 await db.execute("select * from pages where rowid = ?", (rowid,))
             ).first()
-            return {
-                "page": dict(page, filename=page["path"].split("/")[-1])
-            }
+            return {"page": to_page(page)}
         if template == "index.html":
             q = request.args.get("q", "").strip()
             next = request.args.get("next", "").strip()
@@ -47,10 +45,7 @@ def extra_template_vars(request, template, datasette):
                     search_sql = SEARCH_SQL + " limit 21"
                 count_sql = "select count(*) from ({})".format(SEARCH_SQL)
                 count = (await db.execute(count_sql, {"q": q})).single_value()
-                results = [
-                    dict(r, filename=r["path"].split("/")[-1])
-                    for r in (await db.execute(search_sql, kwargs))
-                ]
+                results = [to_page(r) for r in (await db.execute(search_sql, kwargs))]
                 if len(results) > 20:
                     results = results[:20]
                     next_token = "{}:{}".format(
@@ -62,7 +57,19 @@ def extra_template_vars(request, template, datasette):
                 "count": count,
                 "next_token": next_token,
                 "not_first_page": not_first_page,
+                "random_pages": [
+                    to_page(r)
+                    for r in (
+                        await db.execute(
+                            "select rowid, * from pages order by random() limit 6"
+                        )
+                    )
+                ],
             }
         return {}
 
     return inner
+
+
+def to_page(r):
+    return dict(r, filename=r["path"].split("/")[-1])

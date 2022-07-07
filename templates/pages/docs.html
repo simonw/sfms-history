@@ -1,0 +1,20 @@
+{% extends "site_base.html" %}
+
+{% block title %}Documents{% endblock %}
+
+{% block section_class %}page{% endblock %}
+
+{% block content %}
+<div class="result">
+<h1>Documents</h1>
+
+{% set ns = namespace(current_folder="") %}
+{% for document in documents %}
+  {% if document.folder != ns.current_folder %}
+    {% set ns.current_folder = document.folder %}
+    <h2>{{ ns.current_folder }}</h2>
+  {% endif %}
+  <p><a href="/docs/{{ document.id }}">{{ document.title }}</a> - {{ document.num_pages }} page{{ "s" if document.num_pages > 1 else "" }}</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "site_base.html" %}
+
+{% block title %}{{ page.path }} - Page {{ page.page }}{% endblock %}
+
+{% block section_class %}page{% endblock %}
+
+{% block content %}
+<div class="result">
+<h2>{{ page.filename }}</h2>
+<p class="folder">{{ page.folder }}/</p>
+<h3>Page {{ page.page }}</h3>
+
+<pre>
+{{ page.text }}
+</pre>
+
+<img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+</div>
+{% endblock %}

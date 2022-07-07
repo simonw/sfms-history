@@ -1,0 +1,18 @@
+{% extends "site_base.html" %}
+
+{% block title %}{{ document.title }}{% endblock %}
+
+{% block section_class %}page{% endblock %}
+
+{% block content %}
+{% if not document %}{{ raise_404("Document not found") }}{% endif %}
+
+<div class="result">
+<h2>{{ document.title }}</h2>
+
+{% for row in pages %}
+  <a href="/docs/{{ document.id }}/{{ row.page }}/" title="{{ row.path }}"><img class="random-page" src="{{ imgix_sign("{}?page={}&w=200&auto=format".format(row.imgix_url, row.page)) }}" alt="{{ row.text }}"></a>
+{% endfor %}
+
+</div>
+{% endblock %}

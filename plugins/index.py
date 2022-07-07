@@ -76,5 +76,5 @@ def to_page(r):
     return dict(
         r,
         filename=r["path"].split("/")[-1],
-        imgix_url="https://sfms-history-signed.imgix.net/{}".format(quote(r["path"])),
+        imgix_url="https://sfms-history.imgix.net/{}".format(quote(r["path"])),
     )

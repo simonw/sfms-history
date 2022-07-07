@@ -1,4 +1,5 @@
 from datasette import hookimpl
+from urllib.parse import quote
 
 SEARCH_SQL = """
 select
@@ -72,4 +73,8 @@ def extra_template_vars(request, template, datasette):
 
 
 def to_page(r):
-    return dict(r, filename=r["path"].split("/")[-1])
+    return dict(
+        r,
+        filename=r["path"].split("/")[-1],
+        imgix_url="https://sfms-history-signed.imgix.net/{}".format(quote(r["path"])),
+    )

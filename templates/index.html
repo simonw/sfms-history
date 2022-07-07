@@ -15,7 +15,7 @@
     <div class="result">
       <h2><a href="/page/{{ row.rowid }}/">{{ row.filename }}</a> <a class="page-number" href="/page/{{ row.rowid }}/">page {{ row.page }}</a></h2>
       <p class="folder">{{ row.folder }}/</p>
-      <a href="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=1024&auto=format"><img class="result-thumb" src="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=200&auto=format"></a>
+      <a href="/page/{{ row.rowid }}/"><img class="result-thumb" src="{{ imgix_sign("{}?page={}&w=200&auto=format".format(row.imgix_url, row.page)) }}"></a>
       {{ row.highlighted|safe }}
     </div>
   {% endfor %}
@@ -27,7 +27,7 @@
 {% else %}
   <h3>Six random pages</h3>
   {% for row in random_pages %}
-    <a href="/page/{{ row.rowid }}/" title="{{ row.path }}"><img class="random-page" src="https://sfms-history.imgix.net/{{ row.path }}?page={{ row.page }}&w=200&auto=format" alt="{{ row.text }}"></a>
+    <a href="/page/{{ row.rowid }}/" title="{{ row.path }}"><img class="random-page" src="{{ imgix_sign("{}?page={}&w=200&auto=format".format(row.imgix_url, row.page)) }}" alt="{{ row.text }}"></a>
   {% endfor %}
 {% endif %}
 

@@ -14,6 +14,6 @@
 {{ page.text }}
 </pre>
 
-<img src="https://sfms-history.imgix.net/{{ page.path }}?page={{ page.page }}&w=1024&auto=format">
+<img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
 </div>
 {% endblock %}

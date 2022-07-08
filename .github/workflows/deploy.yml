@@ -28,13 +28,13 @@ jobs:
         pip install -r requirements.txt
     - name: Download database
       env:
-        DB_URL: ${{ secrets.DB_URL }}
-      run: curl -s -o sfms-pages.db $DB_URL
+        DB_URL_2: ${{ secrets.DB_URL_2 }}
+      run: curl -s -o sfms.db $DB_URL_2
     - name: Deploy Datasette using Vercel
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       run: |-
-        datasette publish vercel sfms-pages.db \
+        datasette publish vercel sfms.db \
           --token $VERCEL_TOKEN \
           --install datasette-auth-passwords \
           --install datasette-redirect-forbidden \

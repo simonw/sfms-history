@@ -7,6 +7,7 @@
     <input type="submit" value="Search" style="font-size: 1.2em; font-weight: bold; padding: 0.05em 1em;">
   </p>
 </form>
+<p><a href="/docs">Browse all documents</a></p>
 
 {% if results %}
   <p>{{ count }} results <small>(showing {{ results|length }}){% if not_first_page %} <a href="/?q={{ q|urlencode }}">First page</a>{% endif %}</small></p>

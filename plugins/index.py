@@ -3,6 +3,7 @@ from urllib.parse import quote
 
 SEARCH_SQL = """
 select
+    pages.rowid,
     pages.*,
     documents.path,
     pages_fts.rank,

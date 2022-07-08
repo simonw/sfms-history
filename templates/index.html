@@ -26,7 +26,7 @@
   {% endif %}
 
 {% else %}
-  <h3>Six random pages</h3>
+  <h3>Some random pages</h3>
   {% for row in random_pages %}
     <a href="/docs/{{ row.document_id }}/{{ row.page }}" title="{{ row.path }}"><img class="random-page" loading="lazy" src="{{ imgix_sign("{}?page={}&w=200&auto=format".format(row.imgix_url, row.page)) }}" alt="{{ row.text }}"></a>
   {% endfor %}

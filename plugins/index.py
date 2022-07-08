@@ -62,7 +62,7 @@ def extra_template_vars(request, template, datasette):
                             """
                             select pages.*, documents.path
                             from pages join documents on pages.document_id = documents.id
-                            order by random() limit 6
+                            order by random() limit 12
                             """
                         )
                     )

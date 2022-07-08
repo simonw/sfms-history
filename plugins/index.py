@@ -3,13 +3,15 @@ from urllib.parse import quote
 
 SEARCH_SQL = """
 select
-    pages.rowid,
+    pages.*,
+    documents.path,
     pages_fts.rank,
     pages.*,
     snippet(pages_fts, 0, '<b>', '</b>', '...', 160) as highlighted
 from
     pages
     join pages_fts on pages.rowid = pages_fts.rowid
+    join documents on pages.document_id = documents.id
 where
     pages_fts match :q
 order by
@@ -21,50 +23,7 @@ order by
 def extra_template_vars(request, template, datasette):
     async def inner():
         db = datasette.get_database()
-        if template == "pages/page/{rowid}.html":
-            rowid = request.path.split("/")[-1]
-            page = (
-                await db.execute("select * from pages where rowid = ?", (rowid,))
-            ).first()
-            return {"page": to_page(page)}
-        elif template == "pages/docs.html":
-            return {
-                "documents": [to_document(doc) for doc in await db.execute(
-                    """
-                    select documents.*, count(*) as num_pages
-                    from pages join documents on pages.document_id = documents.id
-                    group by documents.id
-                    order by path
-                    """
-                )]
-            }
-        elif template == "pages/docs/{id}.html":
-            id = request.path.split("/")[-1]
-            document = (
-                await db.execute("select * from documents where id = ?", (id,))
-            ).first()
-            return {
-                "document": document, "pages": [to_page(r) for r in await db.execute(
-                    "select pages.*, documents.path from pages join documents on pages.document_id = documents.id where document_id = ?", (id,)
-                )]
-            }
-        elif template == "pages/docs/{id}/{page}.html":
-            bits = request.path.split("/")
-            page = bits[-1]
-            document_id = bits[-2]
-            page = (
-                await db.execute(
-
-                    """
-                    select pages.*, documents.path
-                    from pages join documents on pages.document_id = documents.id
-                    where document_id = ? and page = ?""", (document_id, page)
-                )
-            ).first()
-            return {
-                "page": to_page(page),
-            }
-        elif template == "index.html":
+        if template == "index.html":
             q = request.args.get("q", "").strip()
             next = request.args.get("next", "").strip()
             results = []
@@ -99,7 +58,11 @@ def extra_template_vars(request, template, datasette):
                     to_page(r)
                     for r in (
                         await db.execute(
-                            "select rowid, * from pages order by random() limit 6"
+                            """
+                            select pages.*, documents.path
+                            from pages join documents on pages.document_id = documents.id
+                            order by random() limit 6
+                            """
                         )
                     )
                 ],
@@ -115,8 +78,3 @@ def to_page(r):
         filename=r["path"].split("/")[-1],
         imgix_url="https://sfms-history.imgix.net/{}".format(quote(r["path"])),
     )
-
-
-def to_document(r):
-    bits = r["path"].split("/")
-    return dict(r, folder="/{}/".format("/".join(bits[:-1])).replace("//", "/"))

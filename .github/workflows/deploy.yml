@@ -38,6 +38,7 @@ jobs:
           --token $VERCEL_TOKEN \
           --install datasette-auth-passwords \
           --install datasette-redirect-forbidden \
+          --install datasette-block-robots \
           --project sfms-history \
           --scope datasette \
           --plugins-dir plugins \

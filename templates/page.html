@@ -7,9 +7,18 @@
 {% block content %}
 <div class="result">
 <h2>{{ page.filename }}</h2>
-{{ document.title }}
 <p class="folder">{{ page.folder }}/</p>
 <h3>Page {{ page.page }}</h3>
+
+{% if page_numbers|length > 1 %}
+  <p>Pages: {% for page_number in page_numbers %}
+    {% if page_number != page.page %}<a href="/docs/{{ page.document_id }}/{{ page_number }}">{{ page_number }}</a>
+    {% else %}<strong>{{ page_number }}</strong>
+    {% endif %} &middot;
+  {% endfor %}
+  <a href="/docs/{{ page.document_id }}">All pages</a>
+  </p>
+{% endif %}
 
 <pre>
 {{ page.text }}

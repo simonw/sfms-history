@@ -55,7 +55,7 @@ async def document(datasette, request):
 
 async def page(datasette, request):
     document_id = request.url_vars["document_id"]
-    page = request.url_vars["page"]
+    page_number = int(request.url_vars["page"])
     db = datasette.get_database("sfms")
     document = (
         await db.execute("select * from documents where id = ?", (document_id,))
@@ -66,15 +66,33 @@ async def page(datasette, request):
             select pages.*, documents.path
             from pages join documents on pages.document_id = documents.id
             where document_id = ? and page = ?""",
-            (document_id, page),
+            (document_id, page_number),
         )
     ).first()
+    # Grab all other page numbers in this document
+    page_numbers = [
+        r["page"]
+        for r in await db.execute(
+            "select page from pages where document_id = ? order by page",
+            (document_id,),
+        )
+    ]
+    max_page = max(page_numbers)
+    previous = None
+    if page_number > 1:
+        previous = page_number - 1
+    next = None
+    if page_number < max_page:
+        next = page_number + 1
     return Response.html(
         await datasette.render_template(
             "page.html",
             {
                 "document": to_document(document),
                 "page": to_page(page),
+                "page_numbers": page_numbers,
+                "previous": previous,
+                "next": next,
             },
             request,
         )

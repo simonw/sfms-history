@@ -6,8 +6,8 @@
 
 {% block content %}
 <div class="result">
+<p class="breadcrumbs">{{ breadcrumbs(page.folder) }}</p>
 <h2>{{ page.filename }}</h2>
-<p class="folder">{{ page.folder }}/</p>
 <h3>Page {{ page.page }}</h3>
 <div class="page-and-ocr">
   <pre>{{ page.text }}</pre>

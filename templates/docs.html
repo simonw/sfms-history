@@ -12,7 +12,7 @@
 {% for document in documents %}
   {% if document.folder != ns.current_folder %}
     {% set ns.current_folder = document.folder %}
-    <h2>{{ ns.current_folder }}</h2>
+    <p class="breadcrumbs">{{ breadcrumbs(ns.current_folder) }}</p>
   {% endif %}
   <p><a href="/docs/{{ document.id }}">{{ document.title }}</a> - {{ document.num_pages }} page{{ "s" if document.num_pages > 1 else "" }}</p>
 {% endfor %}

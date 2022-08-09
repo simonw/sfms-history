@@ -1,5 +1,5 @@
 from datasette import hookimpl, Response
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 
 @hookimpl
@@ -8,7 +8,31 @@ def register_routes():
         (r"^/docs$", docs),
         (r"^/docs/(?P<document_id>[a-z0-9]+)$", document),
         (r"^/docs/(?P<document_id>[a-z0-9]+)/(?P<page>\d+)/?$", page),
+        (r"^/folders/(?P<folder>.*)$", folder),
     ]
+
+
+async def folder(datasette, request):
+    folder = unquote(request.url_vars["folder"])
+    db = datasette.get_database("sfms")
+    documents = [
+        to_document(doc)
+        for doc in await db.execute(
+            """
+    select documents.*, count(*) as num_pages
+    from pages join documents on pages.document_id = documents.id
+    where path like ?
+    group by documents.id
+    order by path
+    """,
+            (folder + "/%",),
+        )
+    ]
+    return Response.html(
+        await datasette.render_template(
+            "folder.html", {"documents": documents, "folder": folder}, request
+        )
+    )
 
 
 async def docs(datasette, request):
@@ -103,6 +127,8 @@ def to_page(r):
     return dict(
         r,
         filename=r["path"].split("/")[-1],
+        folder=r["path"].rsplit("/", 1)[0],
+        folder_quoted=quote(r["path"].rsplit("/", 1)[0]),
         imgix_url="https://sfms-history.imgix.net/{}".format(quote(r["path"])),
     )
 

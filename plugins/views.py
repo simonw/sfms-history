@@ -1,5 +1,5 @@
 from datasette import hookimpl, Response
-from urllib.parse import quote, unquote
+from urllib.parse import quote, unquote_plus
 
 
 @hookimpl
@@ -13,7 +13,7 @@ def register_routes():
 
 
 async def folder(datasette, request):
-    folder = unquote(request.url_vars["folder"])
+    folder = unquote_plus(request.url_vars["folder"])
     db = datasette.get_database("sfms")
     documents = [
         to_document(doc)

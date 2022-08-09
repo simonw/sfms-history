@@ -1,6 +1,6 @@
 from re import I
 from datasette import hookimpl
-from urllib.parse import quote
+from urllib.parse import quote, quote_plus
 import hashlib
 import jinja2
 import urllib
@@ -42,6 +42,6 @@ def breadcrumbs(folder):
     accumulated = []
     for bit in bits:
         accumulated.append(bit)
-        path = "/folders/" + quote("/".join(accumulated))
+        path = "/folders/" + quote_plus("/".join(accumulated), safe="/")
         crumbs.append('<a href="{}">{}</a>'.format(path, jinja2.escape(bit)))
     return jinja2.Markup(" / ".join(crumbs))

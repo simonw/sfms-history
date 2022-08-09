@@ -25,8 +25,8 @@ jobs:
     #       ${{ runner.os }}-pip-reqs-
     - name: Install Python dependencies
       run: |
-        pip install -r requirements.txt
         pip install s3-ocr
+        pip install -r requirements.txt
         s3-ocr --version
         s3-ocr --help
     - name: Fetch previous index.db, update with s3-ocr, upload to S3 again

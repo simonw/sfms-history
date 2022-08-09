@@ -12,17 +12,17 @@ jobs:
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
-    - uses: actions/cache@v3
-      name: Configure pip caching
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-reqs-{{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-reqs-
+#     - name: Set up Python
+#       uses: actions/setup-python@v4
+#       with:
+#         python-version: "3.10"
+#     - uses: actions/cache@v3
+#       name: Configure pip caching
+#       with:
+#         path: ~/.cache/pip
+#         key: ${{ runner.os }}-pip-reqs-{{ hashFiles('requirements.txt') }}
+#         restore-keys: |
+#           ${{ runner.os }}-pip-reqs-
     - name: Install Python dependencies
       run: |
         python -m pip freeze | grep lick || true

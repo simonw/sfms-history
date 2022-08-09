@@ -25,7 +25,6 @@ jobs:
     #       ${{ runner.os }}-pip-reqs-
     - name: Install Python dependencies
       run: |
-        pip install s3-ocr
         pip install -r requirements.txt
         s3-ocr --version
         s3-ocr --help

@@ -20,10 +20,10 @@
   </p>
 {% endif %}
 
-<pre>
-{{ page.text }}
-</pre>
-
-<img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+<div class="page-and-ocr">
+  <pre>{{ page.text }}</pre>
+  <div class="img">
+    <img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+  </div>
 </div>
 {% endblock %}

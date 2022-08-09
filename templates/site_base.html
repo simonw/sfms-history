@@ -84,6 +84,15 @@ p.folder {
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 }
+.page-and-ocr {
+  display: flex;
+}
+.page-and-ocr pre {
+  width: 60%;
+}
+.page-and-ocr .img {
+  width: 40%;
+}
 @media only screen and (max-width: 600px) {
   header {
     font-size: 0.75em;
@@ -95,6 +104,14 @@ p.folder {
   .random-page {
     width: 160px;
     height: 240px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .page-and-ocr {
+    display: block;
+  }
+  .page-and-ocr pre, .page-and-ocr .img {
+    width: 95%;
   }
 }
 </style>

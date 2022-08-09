@@ -27,7 +27,7 @@ jobs:
       run: |
         python -m pip freeze | grep lick || true
         python -m venv venv
-        venv/bin/install -r requirements.txt
+        venv/bin/pip install -r requirements.txt
         python -m pip freeze | grep lick || true
         venv/bin/python -m pip freeze | grep lick || true
     - name: Fetch previous index.db, update with s3-ocr, upload to S3 again

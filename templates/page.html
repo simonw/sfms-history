@@ -9,6 +9,14 @@
 <h2>{{ page.filename }}</h2>
 <p class="folder">{{ page.folder }}/</p>
 <h3>Page {{ page.page }}</h3>
+<div class="page-and-ocr">
+  <pre>{{ page.text }}</pre>
+  <div class="img">
+    <a href="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+      <img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+    </a>
+  </div>
+</div>
 
 {% if page_numbers|length > 1 %}
   <p>Pages: {% for page_number in page_numbers %}
@@ -20,12 +28,4 @@
   </p>
 {% endif %}
 
-<div class="page-and-ocr">
-  <pre>{{ page.text }}</pre>
-  <div class="img">
-    <a href="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
-      <img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
-    </a>
-  </div>
-</div>
 {% endblock %}

@@ -32,6 +32,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
       run: |-
         s3-credentials get-object sfms-history index.db -o index.db
+        s3-ocr --help
+        s3-ocr --version
         s3-ocr index sfms-history index.db
         s3-credentials put-object sfms-history index.db index.db
     - name: Build the sfms.db database from index.db

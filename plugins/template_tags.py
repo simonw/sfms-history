@@ -14,6 +14,8 @@ def extra_template_vars():
     return {
         "imgix_sign": imgix_sign,
         "breadcrumbs": breadcrumbs,
+        "min": min,
+        "quote": quote,
     }
 
 

@@ -33,7 +33,14 @@ insert into documents select
 from
   index2.ocr_jobs
 where
-  key in (select path from index2.pages)
+  key in (
+    select path from index2.pages
+    where (
+      folder like 'INTAKE/%'
+      or folder like 'PUBLIC/%'
+    )
+    and folder not like '%PROCESSED INTAKE DOCUMENTS/%'
+  )
 EOF
 )"
 
@@ -46,7 +53,13 @@ insert into pages select distinct
   text
 from index2.pages
   join index2.ocr_jobs
-    on index2.pages.path = index2.ocr_jobs.key;
+    on index2.pages.path = index2.ocr_jobs.key
+where
+  (
+    folder like 'INTAKE/%'
+    or folder like 'PUBLIC/%'
+  )
+  and folder not like '%PROCESSED INTAKE DOCUMENTS/%'
 EOF
 )"
 

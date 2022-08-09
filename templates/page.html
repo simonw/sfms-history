@@ -23,7 +23,9 @@
 <div class="page-and-ocr">
   <pre>{{ page.text }}</pre>
   <div class="img">
-    <img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+    <a href="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+      <img src="{{ imgix_sign("{}?page={}&w=1024&auto=format".format(page.imgix_url, page.page)) }}">
+    </a>
   </div>
 </div>
 {% endblock %}

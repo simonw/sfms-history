@@ -26,10 +26,17 @@ jobs:
     - name: Install Python dependencies
       run: |
         pip install -r requirements.txt
-    - name: Download database
+    - name: Fetch previous index.db, update with s3-ocr, upload to S3 again
       env:
-        DB_URL_2: ${{ secrets.DB_URL_2 }}
-      run: curl -s -o sfms.db $DB_URL_2
+        AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+      run: |-
+        s3-credentials get-object sfms-history index.db -o index.db
+        s3-ocr index sfms-history index.db
+        s3-credentials put-object sfms-history index.db index.db
+    - name: Build the sfms.db database from index.db
+      run: |-
+        ./build-db.sh
     - name: Deploy Datasette using Vercel
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

@@ -12,39 +12,43 @@ jobs:
     steps:
     - name: Check out repo
       uses: actions/checkout@v3
-#     - name: Set up Python
-#       uses: actions/setup-python@v4
-#       with:
-#         python-version: "3.10"
-#     - uses: actions/cache@v3
-#       name: Configure pip caching
-#       with:
-#         path: ~/.cache/pip
-#         key: ${{ runner.os }}-pip-reqs-{{ hashFiles('requirements.txt') }}
-#         restore-keys: |
-#           ${{ runner.os }}-pip-reqs-
-    - name: Install Python dependencies
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+    - uses: actions/cache@v3
+      name: Configure pip caching
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-reqs-{{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-reqs-
+    - name: Install Python dependencies in a venv
       run: |
         python -m pip freeze | grep lick || true
-        pip install -r requirements.txt
+        python -m venv venv
+        venv/bin/install -r requirements.txt
         python -m pip freeze | grep lick || true
+        venv/bin/python -m pip freeze | grep lick || true
     - name: Fetch previous index.db, update with s3-ocr, upload to S3 again
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
       run: |-
-        s3-credentials get-object sfms-history index.db -o index.db
-        s3-ocr --help
-        s3-ocr --version
-        s3-ocr index sfms-history index.db
-        s3-credentials put-object sfms-history index.db index.db
+        venv/bin/s3-credentials get-object sfms-history index.db -o index.db
+        venv/bin/s3-ocr --help
+        venv/bin/s3-ocr --version
+        venv/bin/s3-ocr index sfms-history index.db
+        venv/bin/s3-credentials put-object sfms-history index.db index.db
     - name: Build the sfms.db database from index.db
       run: |-
+        source venv/bin/activate
         ./build-db.sh
     - name: Deploy Datasette using Vercel
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       run: |-
+        source venv/bin/activate
         datasette publish vercel sfms.db \
           --token $VERCEL_TOKEN \
           --install datasette-auth-passwords \

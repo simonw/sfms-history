@@ -25,7 +25,9 @@ jobs:
           ${{ runner.os }}-pip-reqs-
     - name: Install Python dependencies
       run: |
+        python -m pip freeze | grep lick
         pip install -r requirements.txt
+        python -m pip freeze | grep lick
     - name: Fetch previous index.db, update with s3-ocr, upload to S3 again
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}

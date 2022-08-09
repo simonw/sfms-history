@@ -31,24 +31,27 @@ insert into documents select
   key as path,
   replace(s3_ocr_etag, '"', '') as etag
 from
-  index2.ocr_jobs;
+  index2.ocr_jobs
+where
+  key in (select path from index2.pages)
 EOF
 )"
 
 # Populate pages
 sqlite-utils sfms.db --attach index2 index.db "$(cat <<EOF
-insert into pages select
+insert into pages select distinct
   substr(s3_ocr_etag, 2, 8) || '-' || page as id,
   substr(s3_ocr_etag, 2, 8) as document_id,
   page,
   text
 from index2.pages
-  join index2.ocr_jobs on index2.pages.path = index2.ocr_jobs.key;
+  join index2.ocr_jobs
+    on index2.pages.path = index2.ocr_jobs.key;
 EOF
 )"
 
 # Fix document titles
-sfms-history % sqlite-utils convert sfms.db documents title \
+sqlite-utils convert sfms.db documents title \
   'value.split("/")[-1].split(".pdf")[0].replace("_", " ")'
 
 # Enable full-text search

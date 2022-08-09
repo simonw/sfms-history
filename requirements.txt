@@ -1,5 +1,5 @@
 datasette
 datasette-publish-vercel
 sqlite-utils
-https://github.com/simonw/s3-ocr/archive/refs/heads/main.zip
+https://github.com/simonw/s3-ocr/archive/25861f40e1b330596550f780603e65ad78af213f.zip
 s3-credentials

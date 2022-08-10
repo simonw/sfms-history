@@ -67,7 +67,12 @@ async def document(datasette, request):
                 "pages": [
                     to_page(r)
                     for r in await db.execute(
-                        "select pages.*, documents.path from pages join documents on pages.document_id = documents.id where document_id = ?",
+                        """
+                        select pages.*, documents.path
+                        from pages join documents on pages.document_id = documents.id
+                        where document_id = ?
+                        order by page
+                        """,
                         (document_id,),
                     )
                 ],

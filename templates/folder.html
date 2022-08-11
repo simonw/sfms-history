@@ -14,9 +14,9 @@
     <p class="breadcrumbs">{{ breadcrumbs(ns.current_folder) }}</p>
   {% endif %}
   <p><a href="/docs/{{ document.id }}">{{ document.title }}</a> - {{ document.num_pages }} page{{ "s" if document.num_pages > 1 else "" }}</p>
-  <!-- First four get three page thumbnails -->
-  {% if loop.index0 < 4 %}
-    {% for page in range(1, min(document.num_pages, 4)) %}
+  <!-- First five get two page thumbnails -->
+  {% if loop.index0 < 5 %}
+    {% for page in range(1, min(document.num_pages, 3)) %}
       <a href="/docs/{{ document.id }}/{{ page }}" title="Page {{ page }}"><img class="random-page" loading="lazy" src="{{ imgix_sign("{}?page={}&w=200&auto=format".format("https://sfms-history.imgix.net/" + quote(document.path), page)) }}" alt="Page {{ page }}"></a>
     {% endfor %}
   {% endif %}

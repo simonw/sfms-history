@@ -1,5 +1,5 @@
 datasette
-datasette-publish-vercel
+datasette-publish-vercel>=0.14.2
 s3-ocr>=0.6.3
 sqlite-utils
 s3-credentials

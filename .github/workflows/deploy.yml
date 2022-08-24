@@ -53,5 +53,4 @@ jobs:
           --plugins-dir plugins \
           --template-dir templates \
           --static static:static \
-          --setting allow_download 0 \
           -m metadata.yml

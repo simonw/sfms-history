@@ -1,3 +1,5 @@
-# sfms-history
+# The San Francisco Microscopical Society Archive
 
-Tangential project background: [s3-ocr: Extract text from PDF files stored in an S3 bucket](https://simonwillison.net/2022/Jun/30/s3-ocr/)
+The code behind https://archive.sfmicrosociety.org/
+
+Project background: [Building a searchable archive for the San Francisco Microscopical Society](https://simonwillison.net/2022/Aug/25/sfms-archive/)
